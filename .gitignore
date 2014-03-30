@@ -1,4 +1,4 @@
-/cabal-dev/
-/dist/
+/helper/dist/
+/library/dist/
 *.swp
 *~

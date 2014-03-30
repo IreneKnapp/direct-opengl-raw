@@ -18,6 +18,14 @@ install:
  - ghc-pkg list
 
 script:
+ - cd helper
  - cabal-1.18 install --enable-documentation
  - cabal-1.18 sdist
  - ghc-pkg list
+ - cd ..
+ - cd library
+ - cabal-1.18 install --enable-documentation
+ - cabal-1.18 sdist
+ - ghc-pkg list
+ - cd ..
+

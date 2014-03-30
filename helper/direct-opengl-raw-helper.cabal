@@ -1,0 +1,70 @@
+name: direct-opengl-raw-helper
+version: 1.0
+license: BSD3
+license-file: LICENSE
+maintainer: Sven Panne <svenpanne@gmail.com>, Jason Dagit <dagitj@gmail.com>
+bug-reports: https://github.com/IreneKnapp/direct-opengl-raw/issues
+category: Graphics
+synopsis: A raw binding for the OpenGL graphics system
+description:
+   This package is a helper for direct-opengl-raw, created to resolve a
+   dependency of Template Haskell code on C code which it is currently not
+   possible to tell Cabal about.
+build-type: Simple
+cabal-version:  >= 1.6
+
+flag UseNativeWindowsLibraries
+   description:
+      When compiling under Windows, use the native libraries instead of e.g. the
+      ones coming with Cygwin.
+
+flag UseGlXGetProcAddress
+   description:
+      Use glXGetProcAddress instead of dlsym on non-Windows/-Darwin platforms.
+
+library
+   exposed-modules:
+      Graphics.Rendering.OpenGL.Raw.Helper.GetProcAddress,
+      Graphics.Rendering.OpenGL.Raw.Helper.CallingConvention,
+      Graphics.Rendering.OpenGL.Raw.Helper.Extensions,
+      Graphics.Rendering.OpenGL.Raw.Helper.Handle,
+      Graphics.Rendering.OpenGL.Raw.Helper.TH
+   c-sources:
+      C/HsOpenGLRaw.c
+   hs-source-dirs: Haskell
+   build-depends: base >= 3 && < 5,
+                  containers >= 0.5.0.0,
+                  template-haskell >= 2.8.0.0
+   ghc-options: -Wall -O2
+   if impl(ghc)
+      -- these require 6.8, but that's pretty conservative these days
+      extensions: StandaloneDeriving, DeriveDataTypeable
+      build-depends: ghc-prim
+   if os(windows) && flag(UseNativeWindowsLibraries)
+      if arch(i386)
+         hs-source-dirs: TH/stdcall
+      else
+         hs-source-dirs: TH/ccall
+      other-modules: Graphics.Rendering.OpenGL.Raw.TH.HandleIsCUInt
+      cc-options: "-DUSE_WGLGETPROCADDRESS"
+      extra-libraries: opengl32
+   else
+      hs-source-dirs: TH/ccall
+      if !os(darwin) && !os(ios) && flag(UseGlXGetProcAddress)
+         cc-options: "-DUSE_GLXGETPROCADDRESS"
+      else
+         cc-options: "-DUSE_DLSYM"
+      if os(darwin)
+         hs-source-dirs: TH/handle-is-pointer
+         frameworks: OpenGL
+      else
+         hs-source-dirs: TH/handle-is-cuint
+         if os(ios)
+            frameworks: OpenGLES
+         else
+            extra-libraries: GL
+
+source-repository head
+  type:     git
+  location: https://github.com/IreneKapp/direct-opengl-raw.git
+  subdir:   helper
