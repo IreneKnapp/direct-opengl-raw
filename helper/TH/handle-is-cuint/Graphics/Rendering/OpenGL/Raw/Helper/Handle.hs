@@ -1,5 +1,5 @@
 module Graphics.Rendering.OpenGL.Raw.Helper.Handle
-  (GLHandle)
+  (GLhandle)
   where
 
 import Foreign.C.Types
