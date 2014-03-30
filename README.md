@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/IreneKnapp/direct-opengl-raw.png)](https://travis-ci.org/IreneKnapp/direct-opengl-raw)
+
 Experimental Code
 =================
 
