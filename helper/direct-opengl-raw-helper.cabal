@@ -2,7 +2,7 @@ name: direct-opengl-raw-helper
 version: 1.0
 license: BSD3
 license-file: LICENSE
-maintainer: Sven Panne <svenpanne@gmail.com>, Jason Dagit <dagitj@gmail.com>
+maintainer: Irene Knapp <irene.knapp@icloud.com>
 bug-reports: https://github.com/IreneKnapp/direct-opengl-raw/issues
 category: Graphics
 synopsis: A raw binding for the OpenGL graphics system
