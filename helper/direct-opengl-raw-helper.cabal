@@ -45,7 +45,7 @@ library
          hs-source-dirs: TH/stdcall
       else
          hs-source-dirs: TH/ccall
-      other-modules: Graphics.Rendering.OpenGL.Raw.TH.HandleIsCUInt
+      hs-source-dirs: TH/handle-is-cuint
       cc-options: "-DUSE_WGLGETPROCADDRESS"
       extra-libraries: opengl32
    else
